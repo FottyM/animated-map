@@ -20,8 +20,8 @@ path {
     stroke-opacity: 1;
 }
 .travelMarker {
-    fill: cyan;
-    opacity: 0.75;
+    fill: darksalmon;
+    opacity: 0.50;
 }
 .waypoints {
     fill: black;
