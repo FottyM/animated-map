@@ -20,7 +20,7 @@ path {
     stroke-opacity: 1;
 }
 .travelMarker {
-    fill: yellow;
+    fill: cyan;
     opacity: 0.75;
 }
 .waypoints {
@@ -33,7 +33,7 @@ path {
 }
 .lineConnect {
     fill: none;
-    stroke: black;
+    stroke: teal;
     opacity: 1;
 }
 .locnames {
