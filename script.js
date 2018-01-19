@@ -8,7 +8,7 @@ let svg = d3.select(map.getPanes().overlayPane).append('svg');
 
 let g = svg.append('g').attr('class', 'leaflet-zoom-hide');
 
-window.d3json = function (points) {
+window.d3json = function (points, markerId) {
     d3.json(points, function(collection) {
         // this is not needed right now, but for future we may need
         // to implement some filtering. This uses the d3 filter function
@@ -57,10 +57,11 @@ window.d3json = function (points) {
         // but below we set the "d" attribute using the
         // line creator function from above.
         var linePath = g.selectAll(".lineConnect")
-            .data([featuresdata])
+            .data([featuresdata, featuresdata.slice(5), featuresdata.slice(20)])
             .enter()
             .append("path")
-            .attr("class", "lineConnect");
+            .attr("class", "lineConnect")
+            .attr('id', markerId)
         // This will be our traveling circle it will
         // travel along our path
         var marker = g.append("circle")
@@ -214,8 +215,8 @@ window.d3json = function (points) {
 // svg coordinates except that it accepts a point from our
 // GeoJSON
 
-d3json('car2.geo.json');
-// d3json('points.geo.json');
+d3json('car3.geo.json', 'bats');
+// d3json('points.geo.json', 'cats');
 // d3json('newPoints.geo.json');
 var applyLatLngToLayer = function(d) {
     var y = d.geometry.coordinates[1]
