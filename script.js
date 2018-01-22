@@ -4,7 +4,7 @@ let map = L.mapbox.map('map')
 
 L.mapbox.styleLayer('mapbox://styles/mapbox/light-v9').addTo(map);
 
-window.d3json = function (points, index) {
+d3json = function (points, index, startEndColor, speed) {
     let svg = 'svg' + index;
     svg = d3.select(map.getPanes().overlayPane).append('svg');
     let g = svg.append('g').attr('class', 'leaflet-zoom-hide');
@@ -60,14 +60,15 @@ window.d3json = function (points, index) {
             .data([featuresdata])
             .enter()
             .append("path")
-            .attr("class", "lineConnect")
+            .attr("class", "lineConnect").style('stroke', startEndColor)
             // .attr('id', markerId)
         // This will be our traveling circle it will
         // travel along our path
         var marker = g.append("circle")
             .attr("r", 10)
             .attr("id", "marker" + index)
-            .attr("class", "travelMarker");
+            .attr("class", "travelMarker")
+            .style('fill', startEndColor);
         // For simplicity I hard-coded this! I'm taking
         // the first and the last object (the origin)
         // and destination and adding them separately to
@@ -80,7 +81,7 @@ window.d3json = function (points, index) {
             .enter()
             .append("circle", ".drinks")
             .attr("r", 5)
-            .style("fill", "darkcyan")
+            .style("fill", startEndColor)
             //.style("opacity", ".7");
         // I want names for my coffee and beer
         var text = g.selectAll("text")
@@ -161,7 +162,7 @@ window.d3json = function (points, index) {
         // fed to the attrTween operator
         function transition() {
             linePath.transition()
-                .duration(7500)
+                .duration(speed)
                 .attrTween("stroke-dasharray", tweenDash)
                 .each("end", function() {
                     d3.select(this).call(transition);// infinite loop
@@ -221,8 +222,8 @@ var applyLatLngToLayer = function(d) {
 }
 
 //d3json('car3.geo.json');
-d3json('points.geo.json', index='1');
-d3json('newPoints.geo.json', index='2');
-d3json('/geojsons/car2.geo.json', index='3');
+d3json('/geojsons/points.geo.json', index='1', startEndColor ='red', speed = 7900)
+d3json('/geojsons/newPoints.geo.json', index='2', startEndColor ='green', speed = 11500)
+d3json('/geojsons/car2.geo.json', index='3', startEndColor ='blue', speed = 15000)
 
 

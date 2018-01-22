@@ -20,25 +20,55 @@ path {
     stroke-opacity: 1;
 }
 .travelMarker {
-    fill: darksalmon;
-    opacity: 0.50;
+    animation: beam 1020ms infinite;
 }
+
 .waypoints {
     fill: black;
     opacity: 0;
 }
+
 .drinks {
     stroke: black;
-    fill: red;
 }
+
 .lineConnect {
     fill: none;
     stroke: teal;
-    opacity: 1;
+    opacity: .6;
+    /*transition: 1s;*/
 }
-.locnames {
-    fill: black;
-    text-shadow: 1px 1px 1px #FFF, 3px 3px 5px #000;
-    font-weight: bold;
-    font-size: 13px;
+
+/*.locnames {*/
+    /*fill: black;*/
+    /*text-shadow: 1px 1px 1px #FFF, 3px 3px 5px #000;*/
+    /*font-weight: bold;*/
+    /*font-size: 13px;*/
+/*}*/
+
+
+
+@keyframes beam {
+
+    25%{
+        fill-opacity: .75;
+        r:1%;
+    }
+
+    50%{
+        fill-opacity: .5;
+        r:2%;
+
+    }
+
+    75%{
+        fill-opacity: .25;
+        r:3%;
+    }
+
+    100%{
+        fill-opacity: 0;
+        r:3%;
+
+    }
 }
