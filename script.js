@@ -4,11 +4,11 @@ let map = L.mapbox.map('map')
 
 L.mapbox.styleLayer('mapbox://styles/mapbox/light-v9').addTo(map);
 
-let svg = d3.select(map.getPanes().overlayPane).append('svg');
+window.d3json = function (points, index) {
+    let svg = 'svg' + index;
+    svg = d3.select(map.getPanes().overlayPane).append('svg');
+    let g = svg.append('g').attr('class', 'leaflet-zoom-hide');
 
-let g = svg.append('g').attr('class', 'leaflet-zoom-hide');
-
-window.d3json = function (points, markerId) {
     d3.json(points, function(collection) {
         // this is not needed right now, but for future we may need
         // to implement some filtering. This uses the d3 filter function
@@ -57,16 +57,16 @@ window.d3json = function (points, markerId) {
         // but below we set the "d" attribute using the
         // line creator function from above.
         var linePath = g.selectAll(".lineConnect")
-            .data([featuresdata, featuresdata.slice(5), featuresdata.slice(20)])
+            .data([featuresdata])
             .enter()
             .append("path")
             .attr("class", "lineConnect")
-            .attr('id', markerId)
+            // .attr('id', markerId)
         // This will be our traveling circle it will
         // travel along our path
         var marker = g.append("circle")
             .attr("r", 10)
-            .attr("id", "marker")
+            .attr("id", "marker" + index)
             .attr("class", "travelMarker");
         // For simplicity I hard-coded this! I'm taking
         // the first and the last object (the origin)
@@ -81,7 +81,7 @@ window.d3json = function (points, markerId) {
             .append("circle", ".drinks")
             .attr("r", 5)
             .style("fill", "darkcyan")
-            .style("opacity", ".7");
+            //.style("opacity", ".7");
         // I want names for my coffee and beer
         var text = g.selectAll("text")
             .data(originANDdestination)
@@ -188,7 +188,7 @@ window.d3json = function (points, markerId) {
                 // of 250px.
                 interpolate = d3.interpolateString("0," + l, l + "," + l);
                 //t is fraction of time 0-1 since transition began
-                var marker = d3.select("#marker");
+                var marker = d3.select("#marker" + index);
 
                 // p is the point on the line (coordinates) at a given length
                 // along the line. In this case if l=50 and we're midway through
@@ -214,14 +214,15 @@ window.d3json = function (points, markerId) {
 // similar to projectPoint this function converts lat/long to
 // svg coordinates except that it accepts a point from our
 // GeoJSON
-
-d3json('car3.geo.json', 'bats');
-// d3json('points.geo.json', 'cats');
-// d3json('newPoints.geo.json');
 var applyLatLngToLayer = function(d) {
     var y = d.geometry.coordinates[1]
     var x = d.geometry.coordinates[0]
     return map.latLngToLayerPoint(new L.LatLng(y, x))
 }
+
+//d3json('car3.geo.json');
+d3json('points.geo.json', index='1');
+d3json('newPoints.geo.json', index='2');
+d3json('/geojsons/car2.geo.json', index='3');
 
 
